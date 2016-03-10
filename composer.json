@@ -1,0 +1,32 @@
+{
+  "name": "fsv/sortable-collection-type-bundle",
+  "description": "Symfony sortable collection form type",
+  "keywords": [
+    "symfony",
+    "symfony2",
+    "symfony3",
+    "sortable",
+    "collection",
+    "form",
+    "type"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sergey Fedotov",
+      "email": "sergey89@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/symfony": "^2.7|^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fsv\\SortableCollectionTypeBundle\\": ""
+    }
+  }
+}

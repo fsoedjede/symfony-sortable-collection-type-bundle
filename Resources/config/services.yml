@@ -1,0 +1,9 @@
+parameters:
+    fsv_sortable_collection_type.collection_type_extension.class: Fsv\SortableCollectionTypeBundle\Form\Extension\CollectionTypeExtension
+
+services:
+    fsv_sortable_collection_type.collection_type_extension:
+        class: "%fsv_sortable_collection_type.collection_type_extension.class%"
+        arguments: ["@property_accessor"]
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\CollectionType, alias: collection }
