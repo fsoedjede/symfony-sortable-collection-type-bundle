@@ -8,19 +8,19 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class CollectionTypeExtension extends AbstractTypeExtension
 {
     /**
-     * @var PropertyAccessor
+     * @var PropertyAccessorInterface
      */
     private $propertyAccessor;
 
     /**
-     * @param PropertyAccessor $propertyAccessor
+     * @param PropertyAccessorInterface $propertyAccessor
      */
-    public function __construct(PropertyAccessor $propertyAccessor)
+    public function __construct(PropertyAccessorInterface $propertyAccessor)
     {
         $this->propertyAccessor = $propertyAccessor;
     }
