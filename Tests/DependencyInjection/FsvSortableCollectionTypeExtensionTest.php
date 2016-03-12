@@ -7,7 +7,7 @@ use Fsv\SortableCollectionTypeBundle\Form\Extension\CollectionTypeExtension;
 use Fsv\SortableCollectionTypeBundle\FsvSortableCollectionTypeBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class FsvSortableCollectionTypeExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,8 +24,9 @@ class FsvSortableCollectionTypeExtensionTest extends \PHPUnit_Framework_TestCase
     private function getRawContainer()
     {
         $container = new ContainerBuilder();
+        $container->setDefinition('property_accessor', new Definition($this->getMock(PropertyAccessorInterface::class)));
+
         $extension = new FsvSortableCollectionTypeExtension();
-        $container->setDefinition('property_accessor', new Definition(PropertyAccessor::class));
         $container->registerExtension($extension);
 
         $bundle = new FsvSortableCollectionTypeBundle();
