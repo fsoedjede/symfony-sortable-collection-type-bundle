@@ -42,10 +42,14 @@ class CollectionTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $sortBy = $this->normalizeSortOrderings($options['sort_by']);
-        usort($view->children, function (FormView $viewA, FormView $viewB) use ($sortBy) {
-            return $this->compareView($viewA, $viewB, $sortBy);
-        });
+        if (is_callable($options['sort_by'])) {
+            usort($view->children, $options['sort_by']);
+        } else {
+            $sortBy = $this->normalizeSortOrderings($options['sort_by']);
+            usort($view->children, function (FormView $viewA, FormView $viewB) use ($sortBy) {
+                return $this->compareView($viewA, $viewB, $sortBy);
+            });
+        }
     }
 
     private function normalizeSortOrderings($sortBy)
@@ -86,7 +90,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     {
         $resolver
             ->setDefault('sort_by', [])
-            ->setAllowedTypes('sort_by', 'array')
+            ->setAllowedTypes('sort_by', ['array', 'callable'])
         ;
     }
 }

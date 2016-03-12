@@ -5,6 +5,7 @@ namespace Fsv\SortableCollectionTypeBundle\Tests\Form\Extension;
 use Fsv\SortableCollectionTypeBundle\Form\Extension\CollectionTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -76,6 +77,29 @@ class CollectionTypeExtensionTest extends TypeTestCase
         );
 
         $this->assertEquals([3, 2, 1, 0], $this->extractPropertyValuesFromView('property', $form->createView()));
+    }
+
+    public function testCreateViewWithCallbackSorting()
+    {
+        $form = $this->factory->create(
+            self::$collectionType,
+            [
+                ['property' => 2],
+                ['property' => 1],
+                ['property' => 0],
+                ['property' => 3]
+            ],
+            [
+                'sort_by' => function (FormView $viewA, FormView $viewB) {
+                    $valueA = $viewA->vars['data']['property'];
+                    $valueB = $viewB->vars['data']['property'];
+
+                    return $valueA > $valueB ? 1 : ($valueA < $valueB ? -1 : 0);
+                }
+            ]
+        );
+
+        $this->assertEquals([0, 1, 2, 3], $this->extractPropertyValuesFromView('property', $form->createView()));
     }
 
     private function extractPropertyValuesFromView($propertyName, $view)
