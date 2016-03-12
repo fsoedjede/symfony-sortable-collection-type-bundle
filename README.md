@@ -18,7 +18,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Fsv\SortableCollectionTypeBundle\SortableCollectionTypeBundle(),
+        new Fsv\SortableCollectionTypeBundle\FsvSortableCollectionTypeBundle(),
     );
 }
 ```
