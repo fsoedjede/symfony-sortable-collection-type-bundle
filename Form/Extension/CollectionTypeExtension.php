@@ -42,28 +42,41 @@ class CollectionTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        usort($view->children, function ($objectA, $objectB) use ($options) {
-            foreach ($options['sort_by'] as $key => $value) {
-                if (is_int($key)) {
-                    $propertyPath = $value;
-                    $direction = 'asc';
-                } else {
-                    $propertyPath = $key;
-                    $direction = $value;
-                }
-
-                $valueA = $this->propertyAccessor->getValue($objectA->vars['data'], $propertyPath);
-                $valueB = $this->propertyAccessor->getValue($objectB->vars['data'], $propertyPath);
-
-                if ($valueA > $valueB) {
-                    return $direction === 'asc' ? 1 : -1;
-                } elseif ($valueA < $valueB) {
-                    return $direction === 'asc' ? -1 : 1;
-                }
-            }
-
-            return 0;
+        $sortBy = $this->normalizeSortOrderings($options['sort_by']);
+        usort($view->children, function (FormView $viewA, FormView $viewB) use ($sortBy) {
+            return $this->compareView($viewA, $viewB, $sortBy);
         });
+    }
+
+    private function normalizeSortOrderings($sortBy)
+    {
+        $normalizedSortBy = [];
+
+        foreach ($sortBy as $key => $value) {
+            if (is_int($key)) {
+                $normalizedSortBy[$value] = 'asc';
+            } else {
+                $normalizedSortBy[$key] = $value;
+            }
+        }
+
+        return $normalizedSortBy;
+    }
+
+    private function compareView(FormView $viewA, FormView $viewB, array $sortBy)
+    {
+        foreach ($sortBy as $propertyPath => $direction) {
+            $valueA = $this->propertyAccessor->getValue($viewA->vars['data'], $propertyPath);
+            $valueB = $this->propertyAccessor->getValue($viewB->vars['data'], $propertyPath);
+
+            if ($valueA > $valueB) {
+                return $direction === 'asc' ? 1 : -1;
+            } elseif ($valueA < $valueB) {
+                return $direction === 'asc' ? -1 : 1;
+            }
+        }
+
+        return 0;
     }
 
     /**
