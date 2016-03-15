@@ -1,5 +1,6 @@
 FsvSortableCollectionTypeBundle
 ===============
+[![Build Status](https://travis-ci.org/sergeyfedotov/symfony-sortable-collection-type-bundle.svg?branch=master)](https://travis-ci.org/sergeyfedotov/symfony-sortable-collection-type-bundle)
 
 The bundle is used to sort the `FormView` objects in the `CollectionType`.
 Sorting is based on the value of the specified property.
