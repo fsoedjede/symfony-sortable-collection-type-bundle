@@ -1,9 +1,14 @@
 parameters:
     fsv_sortable_collection_type.collection_type_extension.class: Fsv\SortableCollectionTypeBundle\Form\Extension\CollectionTypeExtension
+    fsv_sortable_collection_type.normalizer.class: Fsv\SortableCollectionTypeBundle\Normalizer\Normalizer
 
 services:
+    fsv_sortable_collection_type.normalizer:
+        class: "%fsv_sortable_collection_type.normalizer.class%"
+        arguments: ["@property_accessor"]
+
     fsv_sortable_collection_type.collection_type_extension:
         class: "%fsv_sortable_collection_type.collection_type_extension.class%"
-        arguments: ["@property_accessor"]
+        arguments: ["@fsv_sortable_collection_type.normalizer"]
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\CollectionType, alias: collection }

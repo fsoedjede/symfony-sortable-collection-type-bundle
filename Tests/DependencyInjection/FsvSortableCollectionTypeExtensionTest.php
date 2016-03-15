@@ -5,6 +5,7 @@ namespace Fsv\SortableCollectionTypeBundle\Tests\DependencyInjection;
 use Fsv\SortableCollectionTypeBundle\DependencyInjection\FsvSortableCollectionTypeExtension;
 use Fsv\SortableCollectionTypeBundle\Form\Extension\CollectionTypeExtension;
 use Fsv\SortableCollectionTypeBundle\FsvSortableCollectionTypeBundle;
+use Fsv\SortableCollectionTypeBundle\NormalizerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -19,6 +20,8 @@ class FsvSortableCollectionTypeExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($container->hasDefinition('fsv_sortable_collection_type.collection_type_extension'));
         $this->assertInstanceOf(CollectionTypeExtension::class, $container->get('fsv_sortable_collection_type.collection_type_extension'));
+        $this->assertTrue($container->hasDefinition('fsv_sortable_collection_type.normalizer'));
+        $this->assertInstanceOf(NormalizerInterface::class, $container->get('fsv_sortable_collection_type.normalizer'));
     }
 
     private function getRawContainer()
