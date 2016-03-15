@@ -5,6 +5,7 @@ namespace Fsv\SortableCollectionTypeBundle\Normalizer;
 use Fsv\SortableCollectionTypeBundle\ComparatorInterface;
 use Fsv\SortableCollectionTypeBundle\NormalizerInterface;
 use Fsv\SortableCollectionTypeBundle\Comparator\CallbackComparator;
+use Fsv\SortableCollectionTypeBundle\Comparator\ComparatorChain;
 use Fsv\SortableCollectionTypeBundle\Comparator\PropertyComparator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -28,9 +29,21 @@ class Normalizer implements NormalizerInterface
             return new CallbackComparator($sortBy);
         } elseif (is_object($sortBy) && $sortBy instanceof ComparatorInterface) {
             return $sortBy;
+        } elseif (is_array($sortBy)) {
+            $comparator = new ComparatorChain();
+
+            foreach ($sortBy as $key => $value) {
+                if (is_int($key)) {
+                    $comparator->add($this->createPropertyComparator($value));
+                } else {
+                    $comparator->add($this->createPropertyComparator($key, $value !== 'desc'));
+                }
+            }
+
+            return $comparator;
         }
 
-        throw new \InvalidArgumentException("Parameter must be a string, callable or object");
+        throw new \InvalidArgumentException("Parameter must be a string, array, callable or object");
     }
 
     /**
