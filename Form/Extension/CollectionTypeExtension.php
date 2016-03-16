@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CollectionTypeExtension extends AbstractTypeExtension
@@ -38,12 +39,9 @@ class CollectionTypeExtension extends AbstractTypeExtension
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        if (!$options['sort_by']) {
-            return;
+        if ($options['sort_by']) {
+            usort($view->children, [$options['sort_by'], 'compare']);
         }
-
-        $comparator = $this->normalizer->normalize($options['sort_by']);
-        usort($view->children, [$comparator, 'compare']);
     }
 
     /**
@@ -52,8 +50,14 @@ class CollectionTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('sort_by', [])
-            ->setAllowedTypes('sort_by', ['string', 'array', 'object', 'callable'])
+            ->setDefault('sort_by', null)
+            ->setNormalizer('sort_by', function (Options $options, $value) {
+                if (null !== $value) {
+                    return $this->normalizer->normalize($value);
+                }
+
+                return null;
+            })
         ;
     }
 }
