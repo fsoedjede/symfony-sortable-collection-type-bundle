@@ -5,7 +5,7 @@ namespace Fsv\SortableCollectionTypeBundle\Comparator;
 use Fsv\SortableCollectionTypeBundle\ComparatorInterface;
 use Symfony\Component\Form\FormView;
 
-class ComparatorChain implements ComparatorInterface, \Countable
+class ComparatorChain extends AbstractComparator implements \Countable
 {
     /**
      * @var ComparatorInterface[]

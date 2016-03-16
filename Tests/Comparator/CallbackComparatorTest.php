@@ -24,5 +24,8 @@ class CallbackComparatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(-1, $comparator->compare($viewA, $viewB));
         $this->assertEquals(1, $comparator->compare($viewB, $viewA));
         $this->assertEquals(0, $comparator->compare($viewA, $viewA));
+        $this->assertEquals(-1, $comparator($viewA, $viewB));
+        $this->assertEquals(1, $comparator($viewB, $viewA));
+        $this->assertEquals(0, $comparator($viewA, $viewA));
     }
 }

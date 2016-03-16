@@ -25,9 +25,9 @@ class Normalizer implements NormalizerInterface
     {
         if (is_string($sortBy)) {
             return $this->createPropertyComparator($sortBy);
-        } elseif (is_callable($sortBy)) {
+        } elseif ($sortBy instanceof \Closure) {
             return new CallbackComparator($sortBy);
-        } elseif (is_object($sortBy) && $sortBy instanceof ComparatorInterface) {
+        } elseif ($sortBy instanceof ComparatorInterface) {
             return $sortBy;
         } elseif (is_array($sortBy)) {
             $comparator = new ComparatorChain();
@@ -43,7 +43,7 @@ class Normalizer implements NormalizerInterface
             return $comparator;
         }
 
-        throw new \InvalidArgumentException("Parameter must be a string, array, callable or object");
+        throw new \InvalidArgumentException("Parameter must be a string, array, closure or object");
     }
 
     /**

@@ -40,6 +40,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         if ($options['sort_by']) {
+            // We can't use invokable object because of bug https://bugs.php.net/bug.php?id=50688 ?
             usort($view->children, [$options['sort_by'], 'compare']);
         }
     }

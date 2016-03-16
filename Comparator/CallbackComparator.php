@@ -2,10 +2,9 @@
 
 namespace Fsv\SortableCollectionTypeBundle\Comparator;
 
-use Fsv\SortableCollectionTypeBundle\ComparatorInterface;
 use Symfony\Component\Form\FormView;
 
-class CallbackComparator implements ComparatorInterface
+class CallbackComparator extends AbstractComparator
 {
     /**
      * @var callable
@@ -17,6 +16,9 @@ class CallbackComparator implements ComparatorInterface
         $this->callback = $callback;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function compare(FormView $viewA, FormView $viewB)
     {
         return call_user_func($this->callback, $viewA, $viewB);

@@ -15,14 +15,14 @@ class ComparatorChainTest extends \PHPUnit_Framework_TestCase
 
         $firstComparator = $this->getMock(ComparatorInterface::class);
         $firstComparator
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('compare')
             ->with($viewA, $viewB)
             ->will($this->returnValue(0))
         ;
         $secondComparator = $this->getMock(ComparatorInterface::class);
         $secondComparator
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('compare')
             ->with($viewA, $viewB)
             ->will($this->returnValue(1))
@@ -34,5 +34,6 @@ class ComparatorChainTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame([$firstComparator, $secondComparator], $comparator->all());
         $this->assertEquals(1, $comparator->compare($viewA, $viewB));
+        $this->assertEquals(1, $comparator($viewA, $viewB));
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Fsv\SortableCollectionTypeBundle\Comparator;
 
-use Fsv\SortableCollectionTypeBundle\ComparatorInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyComparator implements ComparatorInterface
+class PropertyComparator extends AbstractComparator
 {
     private $propertyPath;
     private $ascending;
