@@ -23,7 +23,13 @@ class PropertyComparator extends AbstractComparator
         $valueA = $this->propertyAccessor->getValue($viewA->vars['data'], $this->propertyPath);
         $valueB = $this->propertyAccessor->getValue($viewB->vars['data'], $this->propertyPath);
 
-        return $valueA > $valueB ? 1 : ($valueA < $valueB ? -1 : 0);
+        if ($valueA > $valueB) {
+            return $this->ascending ? 1 : -1;
+        } elseif ($valueA < $valueB) {
+            return $this->ascending ? -1 : 1;
+        }
+
+        return 0;
     }
 
     public function getPropertyPath()
