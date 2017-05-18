@@ -31,10 +31,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return method_exists(FormTypeInterface::class, 'getBlockPrefix')
-            ? CollectionType::class
-            : 'collection'
-            ;
+        return CollectionType::class;
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
